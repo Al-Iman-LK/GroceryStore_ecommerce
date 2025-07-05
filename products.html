@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - FreshMart.lk</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .products-page {
+            padding: 30px 0;
+            background: #f8f9fa;
+        }
+        
+        .filters-sidebar {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .filter-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .filter-section:last-child {
+            border-bottom: none;
+        }
+        
+        .filter-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .filter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .filter-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .filter-option label {
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .price-range {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .price-input {
+            width: 80px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .products-content {
+            background: #fff;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .products-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .products-count {
+            color: #7f8c8d;
+        }
+        
+        .sort-options {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .sort-select {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #fff;
+        }
+        
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .view-btn {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn.active {
+            background: #3498db;
+            color: #fff;
+            border-color: #3498db;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            background: #fff;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .page-btn:hover,
+        .page-btn.active {
+            background: #3498db;
+            color: #fff;
+            border-color: #3498db;
+        }
+        
+        .breadcrumb {
+            padding: 15px 0;
+            color: #7f8c8d;
+        }
+        
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+        
+        .products-layout {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .products-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .products-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .sort-options {
+                justify-content: space-between;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+    <header class="header">
+        <div class="top-header">
+            <div class="container">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> +94 11 234 5678 | +94 77 123 4567</span>
+                    <span class="support-text">We are Here! 24/7 Customer Support</span>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=80&fit=crop&crop=center" alt="FreshMart.lk">
+                        </a>
+                    </div>
+                    
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search for food products, brands, categories..." id="searchInput">
+                        <button type="button" onclick="performSearch()"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <a href="#" class="account-link"><i class="fas fa-user"></i> Account</a>
+                        <div class="cart-icon" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="main-nav">
+            <div class="container">
+                <ul class="nav-menu">
+                    <li><a href="#" onclick="showCategory('brands')">Brands</a></li>
+                    <li><a href="#" onclick="showCategory('fresh-produce')">Fresh Produce</a></li>
+                    <li><a href="#" onclick="showCategory('dairy-eggs')">Dairy & Eggs</a></li>
+                    <li><a href="#" onclick="showCategory('beverages')">Beverages</a></li>
+                    <li><a href="#" onclick="showCategory('snacks')">Snacks & Sweets</a></li>
+                    <li><a href="#" onclick="showCategory('frozen')">Frozen Foods</a></li>
+                    <li><a href="#" onclick="showCategory('pantry')">Pantry Essentials</a></li>
+                    <li><a href="#" onclick="showCategory('organic')">Organic</a></li>
+                    <li><a href="#" onclick="showCategory('bulk')">Bulk Orders</a></li>
+                    <li><a href="#" class="video-gallery">Video Gallery</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Products Page Content -->
+    <section class="products-page">
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> > <span>All Products</span>
+            </div>
+            
+            <div class="products-layout">
+                <!-- Filters Sidebar -->
+                <aside class="filters-sidebar">
+                    <div class="filter-section">
+                        <h3 class="filter-title">Categories</h3>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="fresh-produce" onchange="applyFilters()">
+                                <label for="fresh-produce">Fresh Produce (24)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="dairy" onchange="applyFilters()">
+                                <label for="dairy">Dairy & Eggs (18)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="beverages" onchange="applyFilters()">
+                                <label for="beverages">Beverages (32)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="snacks" onchange="applyFilters()">
+                                <label for="snacks">Snacks & Sweets (45)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="organic" onchange="applyFilters()">
+                                <label for="organic">Organic (16)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">Brands</h3>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="anchor" onchange="applyFilters()">
+                                <label for="anchor">Anchor (12)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="nestle" onchange="applyFilters()">
+                                <label for="nestle">Nestle (28)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="keells" onchange="applyFilters()">
+                                <label for="keells">Keells (35)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="maliban" onchange="applyFilters()">
+                                <label for="maliban">Maliban (19)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">Price Range</h3>
+                        <div class="price-range">
+                            <input type="number" placeholder="Min" class="price-input" id="minPrice">
+                            <span>-</span>
+                            <input type="number" placeholder="Max" class="price-input" id="maxPrice">
+                            <button onclick="applyPriceFilter()" class="btn-primary" style="padding: 8px 15px; font-size: 14px;">Apply</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-section">
+                        <h3 class="filter-title">Availability</h3>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="in-stock" onchange="applyFilters()" checked>
+                                <label for="in-stock">In Stock (128)</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="out-of-stock" onchange="applyFilters()">
+                                <label for="out-of-stock">Out of Stock (7)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="clearFilters()" class="btn-primary" style="width: 100%; background: #e74c3c;">
+                        Clear All Filters
+                    </button>
+                </aside>
+                
+                <!-- Products Content -->
+                <div class="products-content">
+                    <div class="products-header">
+                        <div>
+                            <h1>All Products</h1>
+                            <p class="products-count">Showing <span id="productsCount">135</span> products</p>
+                        </div>
+                        
+                        <div class="sort-options">
+                            <label>Sort by:</label>
+                            <select class="sort-select" onchange="sortProducts(this.value)">
+                                <option value="popularity">Popularity</option>
+                                <option value="price-low">Price: Low to High</option>
+                                <option value="price-high">Price: High to Low</option>
+                                <option value="name">Name: A to Z</option>
+                                <option value="newest">Newest First</option>
+                            </select>
+                            
+                            <div class="view-toggle">
+                                <button class="view-btn active" onclick="changeView('grid')">
+                                    <i class="fas fa-th"></i>
+                                </button>
+                                <button class="view-btn" onclick="changeView('list')">
+                                    <i class="fas fa-list"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="products-grid" id="allProductsGrid">
+                        <!-- Products will be loaded here -->
+                    </div>
+                    
+                    <div class="pagination" id="pagination">
+                        <button class="page-btn" onclick="goToPage(1)">1</button>
+                        <button class="page-btn active" onclick="goToPage(2)">2</button>
+                        <button class="page-btn" onclick="goToPage(3)">3</button>
+                        <button class="page-btn" onclick="goToPage(4)">4</button>
+                        <button class="page-btn" onclick="goToPage(5)">5</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shopping Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Shopping Cart</h3>
+            <button onclick="toggleCart()" class="close-cart"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-content" id="cartContent">
+            <p class="empty-cart">No products in the cart.</p>
+        </div>
+        <div class="cart-footer" id="cartFooter" style="display: none;">
+            <div class="cart-total">
+                <strong>Total: Rs. <span id="cartTotal">0.00</span></strong>
+            </div>
+            <button class="btn-checkout" onclick="proceedToCheckout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay" onclick="toggleCart()"></div>
+
+    <!-- Product Modal -->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeProductModal()">&times;</span>
+            <div class="modal-body" id="modalBody">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Products page specific functionality
+        let currentPage = 1;
+        let currentView = 'grid';
+        let appliedFilters = {};
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllProducts();
+            updateCartDisplay();
+        });
+        
+        function loadAllProducts() {
+            const container = document.getElementById('allProductsGrid');
+            container.innerHTML = '';
+            
+            // Combine all products for the products page
+            const allProducts = [
+                ...sampleProducts.featured,
+                ...sampleProducts.freshProduce,
+                ...sampleProducts.dairyBeverages,
+                ...sampleProducts.snacks
+            ];
+            
+            allProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                container.appendChild(productCard);
+            });
+            
+            updateProductsCount(allProducts.length);
+        }
+        
+        function applyFilters() {
+            showNotification('Applying filters...', 'info');
+            // In a real app, this would filter the products based on selected filters
+            setTimeout(() => {
+                showNotification('Filters applied successfully!', 'success');
+            }, 1000);
+        }
+        
+        function applyPriceFilter() {
+            const minPrice = document.getElementById('minPrice').value;
+            const maxPrice = document.getElementById('maxPrice').value;
+            
+            if (minPrice || maxPrice) {
+                showNotification(`Filtering by price range: Rs. ${minPrice || '0'} - Rs. ${maxPrice || '∞'}`, 'info');
+            }
+        }
+        
+        function clearFilters() {
+            // Reset all checkboxes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if (cb.id === 'in-stock') {
+                    cb.checked = true;
+                } else {
+                    cb.checked = false;
+                }
+            });
+            
+            // Reset price inputs
+            document.getElementById('minPrice').value = '';
+            document.getElementById('maxPrice').value = '';
+            
+            showNotification('All filters cleared!', 'info');
+            loadAllProducts();
+        }
+        
+        function changeView(view) {
+            currentView = view;
+            const buttons = document.querySelectorAll('.view-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            if (view === 'grid') {
+                buttons[0].classList.add('active');
+                document.getElementById('allProductsGrid').style.gridTemplateColumns = 'repeat(auto-fit, minmax(280px, 1fr))';
+            } else {
+                buttons[1].classList.add('active');
+                document.getElementById('allProductsGrid').style.gridTemplateColumns = '1fr';
+            }
+        }
+        
+        function goToPage(page) {
+            currentPage = page;
+            const pageButtons = document.querySelectorAll('.page-btn');
+            pageButtons.forEach(btn => btn.classList.remove('active'));
+            pageButtons[page - 1].classList.add('active');
+            
+            showNotification(`Loading page ${page}...`, 'info');
+            // In a real app, this would load products for the specific page
+        }
+        
+        function updateProductsCount(count) {
+            document.getElementById('productsCount').textContent = count;
+        }
+    </script>
+</body>
+</html>

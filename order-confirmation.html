@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - FreshMart.lk</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .confirmation-page {
+            padding: 50px 0;
+            background: #f8f9fa;
+            min-height: 80vh;
+        }
+        
+        .confirmation-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .success-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 50px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: #27ae60;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: successPulse 2s infinite;
+        }
+        
+        .success-icon i {
+            font-size: 50px;
+            color: #fff;
+        }
+        
+        @keyframes successPulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(39, 174, 96, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+        }
+        
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #27ae60;
+            margin-bottom: 15px;
+        }
+        
+        .success-message {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .order-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .order-details h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .detail-value {
+            color: #7f8c8d;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-secondary {
+            background: #ecf0f1;
+            color: #2c3e50;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-secondary:hover {
+            background: #bdc3c7;
+            transform: translateY(-2px);
+        }
+        
+        .timeline {
+            background: #fff;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .timeline h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 0;
+            position: relative;
+        }
+        
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            bottom: -20px;
+            width: 2px;
+            height: 40px;
+            background: #ecf0f1;
+        }
+        
+        .timeline-icon {
+            width: 40px;
+            height: 40px;
+            background: #3498db;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            color: #fff;
+            font-size: 16px;
+        }
+        
+        .timeline-icon.completed {
+            background: #27ae60;
+        }
+        
+        .timeline-icon.current {
+            background: #f39c12;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
+        }
+        
+        .timeline-content h4 {
+            margin: 0;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .timeline-content p {
+            margin: 5px 0 0 0;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        .contact-support {
+            background: #3498db;
+            color: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .contact-support h4 {
+            margin: 0 0 15px 0;
+            font-size: 1.3rem;
+        }
+        
+        .contact-support p {
+            margin: 0 0 20px 0;
+            opacity: 0.9;
+        }
+        
+        .contact-methods {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #fff;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .contact-method:hover {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .success-card {
+                padding: 30px 20px;
+            }
+            
+            .success-title {
+                font-size: 2rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .action-buttons a,
+            .action-buttons button {
+                width: 80%;
+                text-align: center;
+            }
+            
+            .contact-methods {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="top-header">
+            <div class="container">
+                <div class="contact-info">
+                    <span><i class="fas fa-phone"></i> +94 11 234 5678 | +94 77 123 4567</span>
+                    <span class="support-text">We are Here! 24/7 Customer Support</span>
+                </div>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=80&fit=crop&crop=center" alt="FreshMart.lk">
+                        </a>
+                    </div>
+                    
+                    <div class="search-bar">
+                        <input type="text" placeholder="Search for food products, brands, categories..." id="searchInput">
+                        <button type="button" onclick="performSearch()"><i class="fas fa-search"></i></button>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <a href="#" class="account-link"><i class="fas fa-user"></i> Account</a>
+                        <div class="cart-icon" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cartCount">0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Order Confirmation Content -->
+    <section class="confirmation-page">
+        <div class="confirmation-container">
+            <!-- Success Card -->
+            <div class="success-card">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+                <h1 class="success-title">Order Confirmed!</h1>
+                <p class="success-message">
+                    Thank you for your order! We've received your payment and your order is being processed. 
+                    You'll receive an email confirmation shortly with all the details.
+                </p>
+                
+                <div class="order-details">
+                    <h3>Order Details</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Order Number:</span>
+                        <span class="detail-value" id="orderNumber">#ORD1736112345</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Order Date:</span>
+                        <span class="detail-value" id="orderDate">January 5, 2025</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Payment Method:</span>
+                        <span class="detail-value">Credit Card (**** 3456)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Delivery Address:</span>
+                        <span class="detail-value">123 Galle Road, Colombo 03</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Estimated Delivery:</span>
+                        <span class="detail-value" id="estimatedDelivery">January 8, 2025</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Total Amount:</span>
+                        <span class="detail-value" id="totalAmount">Rs. 3,247.00</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <a href="index.html" class="btn-primary">Continue Shopping</a>
+                    <button onclick="printOrder()" class="btn-secondary">
+                        <i class="fas fa-print"></i> Print Order
+                    </button>
+                    <button onclick="downloadReceipt()" class="btn-secondary">
+                        <i class="fas fa-download"></i> Download Receipt
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Order Timeline -->
+            <div class="timeline">
+                <h3>Order Progress</h3>
+                <div class="timeline-item">
+                    <div class="timeline-icon completed">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Order Placed</h4>
+                        <p>Your order has been successfully placed and payment confirmed</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon current">
+                        <i class="fas fa-box"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Processing</h4>
+                        <p>We're preparing your items for shipment</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Shipped</h4>
+                        <p>Your order is on its way to you</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <h4>Delivered</h4>
+                        <p>Your order has been delivered successfully</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Support -->
+            <div class="contact-support">
+                <h4>Need Help with Your Order?</h4>
+                <p>Our customer support team is here to help you 24/7</p>
+                <div class="contact-methods">
+                    <a href="tel:+94112345678" class="contact-method">
+                        <i class="fas fa-phone"></i>
+                        <span>+94 11 234 5678</span>
+                    </a>
+                    <a href="mailto:support@freshmart.lk" class="contact-method">
+                        <i class="fas fa-envelope"></i>
+                        <span>support@freshmart.lk</span>
+                    </a>
+                    <a href="#" class="contact-method">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp Support</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setupOrderConfirmation();
+            updateCartDisplay();
+        });
+        
+        function setupOrderConfirmation() {
+            // Get order ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('order') || '#ORD' + Date.now();
+            
+            // Update order details
+            document.getElementById('orderNumber').textContent = orderId;
+            
+            // Set current date
+            const currentDate = new Date();
+            const orderDate = currentDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('orderDate').textContent = orderDate;
+            
+            // Calculate estimated delivery (3 days from now)
+            const deliveryDate = new Date(currentDate);
+            deliveryDate.setDate(deliveryDate.getDate() + 3);
+            const estimatedDelivery = deliveryDate.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            document.getElementById('estimatedDelivery').textContent = estimatedDelivery;
+            
+            // Calculate total amount (sample calculation)
+            const sampleTotal = 3247.00;
+            document.getElementById('totalAmount').textContent = `Rs. ${sampleTotal.toLocaleString()}`;
+            
+            // Send confirmation email (simulated)
+            setTimeout(() => {
+                showNotification('Order confirmation email sent successfully!', 'success');
+            }, 2000);
+        }
+        
+        function printOrder() {
+            // Create a print-friendly version
+            const printWindow = window.open('', '_blank');
+            const orderDetails = document.querySelector('.order-details').innerHTML;
+            const orderNumber = document.getElementById('orderNumber').textContent;
+            
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Order Receipt - ${orderNumber}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .order-details { max-width: 600px; margin: 0 auto; }
+                        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee; }
+                        .detail-row:last-child { border-bottom: none; font-weight: bold; }
+                        .logo { height: 60px; margin-bottom: 20px; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200&h=80&fit=crop&crop=center" alt="FreshMart.lk" class="logo">
+                        <h1>Order Receipt</h1>
+                        <p>Thank you for your order!</p>
+                    </div>
+                    <div class="order-details">
+                        ${orderDetails}
+                    </div>
+                    <div style="text-align: center; margin-top: 30px; color: #666;">
+                        <p>For any queries, contact us at +94 11 234 5678 or support@freshmart.lk</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+            printWindow.print();
+            printWindow.close();
+            
+            showNotification('Printing order receipt...', 'info');
+        }
+        
+        function downloadReceipt() {
+            // Simulate PDF download
+            showNotification('Preparing receipt download...', 'info');
+            
+            setTimeout(() => {
+                // Create a blob for demonstration
+                const receiptData = generateReceiptData();
+                const blob = new Blob([receiptData], { type: 'text/plain' });
+                const url = window.URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `receipt-${document.getElementById('orderNumber').textContent}.txt`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+                
+                showNotification('Receipt downloaded successfully!', 'success');
+            }, 1500);
+        }
+        
+        function generateReceiptData() {
+            const orderNumber = document.getElementById('orderNumber').textContent;
+            const orderDate = document.getElementById('orderDate').textContent;
+            const totalAmount = document.getElementById('totalAmount').textContent;
+            
+            return `
+FRESHMART.LK - ORDER RECEIPT
+=============================
+
+Order Number: ${orderNumber}
+Order Date: ${orderDate}
+Total Amount: ${totalAmount}
+
+Delivery Address:
+123 Galle Road, Colombo 03
+
+Payment Method: Credit Card (**** 3456)
+
+Items Ordered:
+- Premium Organic Rice - 5kg (Rs. 2,500.00)
+- Fresh Milk - 1L (Rs. 380.00)
+- Ceylon Black Tea - 200g (Rs. 850.00)
+
+Subtotal: Rs. 3,730.00
+Delivery: Rs. 200.00
+Tax (8%): Rs. 298.40
+Total: Rs. 4,228.40
+
+Thank you for shopping with FreshMart.lk!
+
+For support: +94 11 234 5678
+Email: support@freshmart.lk
+            `.trim();
+        }
+        
+        // Email notification simulation
+        function sendConfirmationEmail() {
+            const orderNumber = document.getElementById('orderNumber').textContent;
+            
+            // Simulate email sending
+            console.log(`Sending confirmation email for order ${orderNumber}...`);
+            
+            // In a real application, this would be handled by the backend
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve(true);
+                }, 2000);
+            });
+        }
+        
+        // Order tracking simulation
+        function trackOrder() {
+            const orderNumber = document.getElementById('orderNumber').textContent;
+            showNotification(`Tracking information for ${orderNumber} will be available soon!`, 'info');
+        }
+        
+        // Social sharing
+        function shareOrder() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My FreshMart Order',
+                    text: `Just placed an order on FreshMart.lk! Order number: ${document.getElementById('orderNumber').textContent}`,
+                    url: window.location.href
+                });
+            } else {
+                // Fallback for browsers that don't support Web Share API
+                const url = encodeURIComponent(window.location.href);
+                const text = encodeURIComponent(`Just placed an order on FreshMart.lk!`);
+                window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
